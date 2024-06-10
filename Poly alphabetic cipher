@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <string.h>
+
+void polySubstitutionCipher(char message[], char key[]) {
+    int i, j;
+    int keyLen = strlen(key);
+
+    for(i = 0; message[i] != '\0'; ++i) {
+        char ch = message[i];
+        int shift = key[i % keyLen] - 'A';
+
+        if(ch >= 'a' && ch <= 'z') {
+            ch = 'a' + (ch - 'a' + shift) % 26;
+        }
+        else if(ch >= 'A' && ch <= 'Z') {
+            ch = 'A' + (ch - 'A' + shift) % 26;
+        }
+
+        message[i] = ch;
+    }
+
+    printf("Encrypted message: %s\n", message);
+}
+
+int main() {
+    char message[100];
+    char key[100];
+
+    printf("Enter message: ");
+    fgets(message, sizeof(message), stdin);
+
+    printf("Enter key: ");
+    fgets(key, sizeof(key), stdin);
+
+    // Remove newlines
+    message[strcspn(message, "\n")] = '\0';
+    key[strcspn(key, "\n")] = '\0';
+
+    polySubstitutionCipher(message, key);
+
+    return 0;
+}
